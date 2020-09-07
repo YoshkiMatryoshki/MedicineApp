@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">MedicineApp</string>
+    <string name="menu_header_text">Navigation</string>
+    <string name="menu_nearest">Nearest</string>
+    <string name="menu_config">Configure</string>
+    <string name="action_settings">Settings</string>
+</resources>
