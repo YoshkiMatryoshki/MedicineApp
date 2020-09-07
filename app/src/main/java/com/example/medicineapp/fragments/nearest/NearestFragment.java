@@ -24,12 +24,15 @@ public class NearestFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_nearest, container, false);
         final TextView textView = root.findViewById(R.id.nearest_textView);
+
         nearestViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 textView.setText(s);
             }
         });
+
+
         return root;
 
     }
