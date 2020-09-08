@@ -10,5 +10,6 @@
     <string name="fragment_addnew">AddNew</string>
     <string name="input_dosecount">Dose</string>
     <string name="input_startday">First day of course</string>
-    <string name="input_courselength">Course length</string>
+    <string name="input_courselength">Course length (days)</string>
+    <string name="set_time_button">Set time</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 
 import com.example.medicineapp.database.MedCoursesDatabase;
 import com.google.android.material.navigation.NavigationView;
@@ -55,4 +56,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
         //return super.onSupportNavigateUp();
     }
+
 }

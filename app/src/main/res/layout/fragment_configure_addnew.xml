@@ -7,36 +7,13 @@
     android:layout_marginTop="10dp"
     tools:context=".fragments.configure.AddNewFragment">
 
-    <EditText
-        android:id="@+id/editTextTime3"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="28dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintStart_toEndOf="@+id/editTextTime2"
-        app:layout_constraintTop_toTopOf="@+id/editTextTime"
-        android:hint="evening_time"
-        android:autofillHints="" />
-
-    <EditText
-        android:id="@+id/editTextTime2"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="24dp"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintStart_toEndOf="@+id/editTextTime"
-        app:layout_constraintTop_toTopOf="@+id/editTextTime"
-        android:hint="daytime"/>
-
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/dailycount_decrement_button"
         android:layout_width="50dp"
         android:layout_height="26dp"
         android:background="@android:drawable/arrow_down_float"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/dailycount_increment_button"
+        app:layout_constraintTop_toBottomOf="@+id/dailycount_increment_button" />
 
     <EditText
         android:id="@+id/newcourse_medname"
@@ -73,15 +50,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:editable="false"
         android:ems="10"
         android:hint="@string/input_startday"
-        android:inputType="date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newcourse_doseinfo" />
 
     <EditText
-        android:id="@+id/newcourse_endday"
-        android:layout_width="144dp"
+        android:id="@+id/newcourse_length"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -97,14 +75,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
+        android:enabled="false"
         android:inputType="number"
-        android:text="1"
+        android:text="0"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/newcourse_endday" />
+        app:layout_constraintEnd_toStartOf="@+id/dailycount_increment_button"
+        app:layout_constraintTop_toBottomOf="@+id/newcourse_length" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/dailycount_increment_button"
         android:layout_width="50dp"
         android:layout_height="26dp"
         android:layout_marginEnd="20dp"
@@ -112,28 +91,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/newcourse_dailycount" />
 
-    <EditText
-        android:id="@+id/editTextTime"
-        android:layout_width="100dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="time"
-        android:hint="morning"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newcourse_dailycount" />
-
     <Button
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="40dp"
         android:text="@string/input_save"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTime2"/>
+        app:layout_constraintTop_toBottomOf="@+id/set_time_button" />
 
     <TextView
         android:id="@+id/textView"
@@ -144,5 +111,15 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/newcourse_dailycount"
         app:layout_constraintEnd_toStartOf="@+id/newcourse_dailycount" />
+
+    <Button
+        android:id="@+id/set_time_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/set_time_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newcourse_dailycount" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
