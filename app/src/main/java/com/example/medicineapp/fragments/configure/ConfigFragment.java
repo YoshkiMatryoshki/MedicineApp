@@ -9,6 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,9 +35,6 @@ public class ConfigFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_configure,container, false);
 
-        //TextView textView = root.findViewById(R.id.config_textView);
-        //textView.setText("OmegalulWorking");
-
         recyclerView = root.findViewById(R.id.main_recycler_view);
         layoutManager = new LinearLayoutManager(this.getContext());
         adapter = new MedInfoAdapter();
@@ -48,8 +48,23 @@ public class ConfigFragment extends Fragment {
         configFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                NavHostFragment.findNavController(ConfigFragment.this)
+                        .navigate(R.id.action_nav_configure_to_nav_configure_addnew);
+
+                /*
                 Snackbar.make(view, "ITS WORKING!", Snackbar.LENGTH_LONG)
-                        .setAction("Action",null).show();
+                        .setAction("Action",null).show();*/
+            }
+        });
+
+
+        //get liveData from model
+        ConfigViewModel model = ViewModelProviders.of(getActivity()).get(ConfigViewModel.class);
+        model.getValue().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                String test = s;
+
             }
         });
 

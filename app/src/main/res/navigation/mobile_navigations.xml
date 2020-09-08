@@ -10,10 +10,25 @@
         android:name="com.example.medicineapp.fragments.nearest.NearestFragment"
         android:label="@string/menu_nearest"
         tools:layout="@layout/fragment_nearest" />
+
     <fragment
         android:id="@+id/nav_configure"
         android:name="com.example.medicineapp.fragments.configure.ConfigFragment"
         android:label="@string/menu_configure"
-        tools:layout="@layout/fragment_configure" />
+        tools:layout="@layout/fragment_configure" >
+        <action
+            android:id="@+id/action_nav_configure_to_nav_configure_addnew"
+            app:destination="@id/nav_configure_addnew" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_configure_addnew"
+        android:name="com.example.medicineapp.fragments.configure.AddNewFragment"
+        android:label="@string/fragment_addnew"
+        tools:layout="@layout/fragment_configure_addnew" >
+        <action
+            android:id="@+id/action_nav_configure_addnew_to_nav_configure"
+            app:destination="@id/nav_configure" />
+    </fragment>
 
 </navigation>
