@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.R;
+import com.example.medicineapp.fragments.MedConfigAdapter;
 import com.example.medicineapp.fragments.MedInfoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,7 +26,7 @@ import java.util.zip.Inflater;
 public class ConfigFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private MedInfoAdapter adapter;
+    private MedConfigAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
 
@@ -37,7 +38,7 @@ public class ConfigFragment extends Fragment {
 
         recyclerView = root.findViewById(R.id.main_recycler_view);
         layoutManager = new LinearLayoutManager(this.getContext());
-        adapter = new MedInfoAdapter();
+        adapter = new MedConfigAdapter();
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -63,11 +64,10 @@ public class ConfigFragment extends Fragment {
         model.getValue().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
-                String test = s;
+                adapter.addNewRecord(s);
 
             }
         });
-
 
         return root;
         //return super.onCreateView(inflater, container, savedInstanceState);

@@ -15,6 +15,10 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.medicineapp.R;
 
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+
 public class AddNewFragment extends Fragment {
 
     ConfigViewModel model;
@@ -35,6 +39,17 @@ public class AddNewFragment extends Fragment {
             public void onClick(View view) {
                 //set data to ViewModel
                 model.setValue(nameText.getText().toString());
+
+                Calendar calendar = Calendar.getInstance();
+                Date test = calendar.getTime();
+                int hour = calendar.get(Calendar.HOUR);
+                int hour24 = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                calendar.add(Calendar.DATE, 30);
+                Date test1 = calendar.getTime();
+
+
 
                 //go back to main config fragment
                 NavHostFragment.findNavController(AddNewFragment.this)

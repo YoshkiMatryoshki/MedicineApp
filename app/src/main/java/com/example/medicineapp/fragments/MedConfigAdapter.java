@@ -3,7 +3,6 @@ package com.example.medicineapp.fragments;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,56 +14,52 @@ import com.example.medicineapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewHolder> {
-    public class MedViewHolder extends RecyclerView.ViewHolder {
+public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedConfigViewHolder> {
+    public class MedConfigViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout containerView;
         TextView pillInfo;
         TextView countInfo;
-        EditText takeTime;
+        TextView dayCount;
+        TextView startEndDate;
 
-        MedViewHolder (View view){
+        MedConfigViewHolder(View view){
             super(view);
 
-            containerView = view.findViewById(R.id.recycler_row);
-            pillInfo = view.findViewById(R.id.recycler_row_pillInfo);
+            pillInfo = view.findViewById(R.id.recycler_configrow_pillInfo);
             countInfo = view.findViewById(R.id.recycler_configrow_countInfo);
-            takeTime = view.findViewById(R.id.recycler_row_time);
-
-            //HERE ONCLICK LISTENER
+            dayCount = view.findViewById(R.id.recycler_configrow_daycount);
+            startEndDate = view.findViewById(R.id.recycler_configrow_startend);
         }
+
     }
 
     private List<String> content = new ArrayList<>();
 
-
     @NonNull
     @Override
-    public MedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MedConfigViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_row, parent, false);
-
-        return new MedViewHolder(view);
+                .inflate(R.layout.recycler_config_row, parent, false);
+        return new MedConfigViewHolder(view);
     }
-
     @Override
-    public void onBindViewHolder(@NonNull MedViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MedConfigViewHolder holder, int position) {
         String current = content.get(position);
         holder.pillInfo.setText(current);
         holder.countInfo.setText(Integer.toString(position));
-        holder.takeTime.setText(position + ":"+ position+1);
+        holder.dayCount.setText("3");
+        holder.startEndDate.setText("08.09.20 - 18.09.20");
 
     }
-
     @Override
     public int getItemCount() {
         return content.size();
     }
 
-
     public void reload(){
-        content.add("TEST1");
-        content.add("TEST2");
-        content.add("TEST3");
         notifyDataSetChanged();
+    }
+    public void addNewRecord(String name){
+        content.add(name);
     }
 }
