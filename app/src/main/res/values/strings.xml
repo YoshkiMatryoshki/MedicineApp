@@ -5,7 +5,10 @@
     <string name="menu_config">Configure</string>
     <string name="action_settings">Settings</string>
     <string name="menu_configure">Configure</string>
-    <string name="input_medName">Name:</string>
+    <string name="input_medName">Medicine name</string>
     <string name="input_save">Save</string>
     <string name="fragment_addnew">AddNew</string>
+    <string name="input_dosecount">Dose</string>
+    <string name="input_startday">First day of course</string>
+    <string name="input_courselength">Course length</string>
 </resources>

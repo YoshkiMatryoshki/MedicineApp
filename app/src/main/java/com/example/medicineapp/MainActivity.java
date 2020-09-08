@@ -7,15 +7,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.Menu;
 
+import com.example.medicineapp.database.MedCoursesDatabase;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
+    public static MedCoursesDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this,R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this,navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        database = Room.databaseBuilder(getApplicationContext(), MedCoursesDatabase.class, "courses")
+                .allowMainThreadQueries()
+                .build();
     }
 
     @Override

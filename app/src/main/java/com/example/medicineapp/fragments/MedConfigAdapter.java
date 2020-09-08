@@ -9,9 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedicineCourse;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedConfigViewHolder> {
@@ -33,7 +39,8 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
 
     }
 
-    private List<String> content = new ArrayList<>();
+    //private List<String> content = new ArrayList<>();
+    private List<MedicineCourse> content = new ArrayList<>();
 
     @NonNull
     @Override
@@ -44,11 +51,13 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
     }
     @Override
     public void onBindViewHolder(@NonNull MedConfigViewHolder holder, int position) {
-        String current = content.get(position);
-        holder.pillInfo.setText(current);
-        holder.countInfo.setText(Integer.toString(position));
-        holder.dayCount.setText("3");
-        holder.startEndDate.setText("08.09.20 - 18.09.20");
+        MedicineCourse current = content.get(position);
+        holder.pillInfo.setText(current.medName);
+        holder.countInfo.setText(current.medDose);
+        holder.dayCount.setText(String.format("%d",current.dayCount));
+        String resultStart = getFormatDate(current.startCourse);
+        String resultEnd = getFormatDate(current.endCourse);
+        holder.startEndDate.setText(resultStart + " — " + resultEnd);
 
     }
     @Override
@@ -57,9 +66,26 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
     }
 
     public void reload(){
+        content = MainActivity.database.medicineCourseDAO().getAllCourses();
         notifyDataSetChanged();
     }
-    public void addNewRecord(String name){
-        content.add(name);
+    public void addNewRecord(MedicineCourse newCourse){
+        MainActivity.database.medicineCourseDAO().insertCourse(newCourse);
+    }
+
+
+    //CalendarWorks
+    private String getFormatDate(Date date){
+        String res = "DateError";
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1; //month return values starting from 0!!!
+        int year = calendar.get(Calendar.YEAR);
+
+        res = String.format("%02d.%02d.%d",day,month,year);
+
+        return res;
     }
 }

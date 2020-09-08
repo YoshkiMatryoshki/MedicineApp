@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedicineCourse;
 import com.example.medicineapp.fragments.MedConfigAdapter;
 import com.example.medicineapp.fragments.MedInfoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +30,16 @@ public class ConfigFragment extends Fragment {
     private RecyclerView recyclerView;
     private MedConfigAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ConfigViewModel model;
+
+    private Observer<MedicineCourse> observer = new Observer<MedicineCourse>() {
+        @Override
+        public void onChanged(MedicineCourse medicineCourse) {
+            if (medicineCourse != null){
+                adapter.addNewRecord(medicineCourse);
+            }
+        }
+    };;
 
 
     @Nullable
@@ -35,6 +47,7 @@ public class ConfigFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_configure,container, false);
+
 
         recyclerView = root.findViewById(R.id.main_recycler_view);
         layoutManager = new LinearLayoutManager(this.getContext());
@@ -52,25 +65,22 @@ public class ConfigFragment extends Fragment {
                 NavHostFragment.findNavController(ConfigFragment.this)
                         .navigate(R.id.action_nav_configure_to_nav_configure_addnew);
 
-                /*
-                Snackbar.make(view, "ITS WORKING!", Snackbar.LENGTH_LONG)
-                        .setAction("Action",null).show();*/
             }
         });
 
-
+        model = ViewModelProviders.of(getActivity()).get(ConfigViewModel.class);
         //get liveData from model
-        ConfigViewModel model = ViewModelProviders.of(getActivity()).get(ConfigViewModel.class);
-        model.getValue().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                adapter.addNewRecord(s);
+        model.getValue().observe(getViewLifecycleOwner(), observer);
 
-            }
-        });
 
         return root;
         //return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        model.getValue().removeObserver(observer);
     }
 
     @Override
