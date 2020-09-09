@@ -77,7 +77,7 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
     //CalendarWorks
     private String getFormatDate(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/HH:mm");
 
         return sdf.format(date);
     }

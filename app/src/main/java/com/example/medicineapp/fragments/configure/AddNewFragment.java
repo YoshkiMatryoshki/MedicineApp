@@ -104,6 +104,7 @@ public class AddNewFragment extends Fragment {
                 newCoursePack.dayCount = Integer.parseInt(dailyCount.getText().toString());
                 //ADD TIMINGS!!!
                 newCoursePack.medicineTIme = medicineTime;
+                newCoursePack.courseLength = Integer.parseInt(dailyCount.getText().toString());
                 //set data to ViewModel
                 model.setValue(newCoursePack);
 

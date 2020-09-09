@@ -14,6 +14,7 @@ import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
 import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
+import com.example.medicineapp.database.MedicineTakeInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,6 +93,25 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
 
         MainActivity.database.medicineCourseDAO().insertCourse(newCourse);
         int course_id = MainActivity.database.medicineCourseDAO().getUniqCourse(newCourse.medName).get(0).id;
+
+        MedicineTakeInfo medInfo = new MedicineTakeInfo();
+        medInfo.medicineId = course_id;
+        medInfo.isTaken = 0;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(newCoursePacked.startCourse);
+        for (int i = 0; i <= newCoursePacked.courseLength; i++){
+            calendar.add(Calendar.DAY_OF_MONTH,(i==0)?0:1);
+            Calendar timeCalendar = new GregorianCalendar();
+            for(Date takeTime : newCoursePacked.medicineTIme){
+                timeCalendar.setTime(takeTime);
+                calendar.set(Calendar.HOUR_OF_DAY, timeCalendar.get(Calendar.HOUR_OF_DAY));
+                calendar.set(Calendar.MINUTE, timeCalendar.get(Calendar.MINUTE));
+                medInfo.takeDay = calendar.getTime();
+
+                //WRITEINTOTABLE
+                MainActivity.database.medicineTakeInfoDAO().insertInfo(medInfo);
+            }
+        }
 
     }
 
