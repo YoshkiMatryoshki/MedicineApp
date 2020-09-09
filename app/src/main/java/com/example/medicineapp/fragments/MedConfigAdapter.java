@@ -1,5 +1,6 @@
 package com.example.medicineapp.fragments;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
 
 import java.text.SimpleDateFormat;
@@ -69,8 +71,28 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
         content = MainActivity.database.medicineCourseDAO().getAllCourses();
         notifyDataSetChanged();
     }
+
+    //Deprec
     public void addNewRecord(MedicineCourse newCourse){
         MainActivity.database.medicineCourseDAO().insertCourse(newCourse);
+    }
+    public void addNewRecord(MedCoursePacked newCoursePacked){
+
+        if (MainActivity.database.medicineCourseDAO().getUniqCourse(newCoursePacked.medName).size() != 0){
+            Log.e("DB_Err","Medicine with this name already exist in DB. Name must be unique");
+            return;
+        }
+
+        MedicineCourse newCourse = new MedicineCourse();
+        newCourse.medName = newCoursePacked.medName;
+        newCourse.medDose = newCoursePacked.medDose;
+        newCourse.dayCount = newCoursePacked.dayCount;
+        newCourse.startCourse = newCoursePacked.startCourse;
+        newCourse.endCourse = newCoursePacked.endCourse;
+
+        MainActivity.database.medicineCourseDAO().insertCourse(newCourse);
+        int course_id = MainActivity.database.medicineCourseDAO().getUniqCourse(newCourse.medName).get(0).id;
+
     }
 
 

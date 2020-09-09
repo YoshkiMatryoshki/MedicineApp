@@ -11,9 +11,12 @@ public interface MedicineCourseDAO {
     @Query("SELECT * FROM courses")
     List<MedicineCourse> getAllCourses();
 
+    @Query("SELECT * FROM courses WHERE medName = :medName")
+    List<MedicineCourse> getUniqCourse(String medName);
+
     @Insert
     void insertCourse(MedicineCourse medicineCourse);
 
     @Query("DELETE FROM courses")
-    void deleteALL();
+    void deleteALLCourses();
 }

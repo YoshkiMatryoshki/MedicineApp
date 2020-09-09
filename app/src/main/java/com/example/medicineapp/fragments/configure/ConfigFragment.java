@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
 import com.example.medicineapp.fragments.MedConfigAdapter;
 import com.example.medicineapp.fragments.MedInfoAdapter;
@@ -32,11 +33,11 @@ public class ConfigFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ConfigViewModel model;
 
-    private Observer<MedicineCourse> observer = new Observer<MedicineCourse>() {
+    private Observer<MedCoursePacked> observer = new Observer<MedCoursePacked>() {
         @Override
-        public void onChanged(MedicineCourse medicineCourse) {
-            if (medicineCourse != null){
-                adapter.addNewRecord(medicineCourse);
+        public void onChanged(MedCoursePacked medCoursePacked) {
+            if (medCoursePacked != null){
+                adapter.addNewRecord(medCoursePacked);
             }
         }
     };;

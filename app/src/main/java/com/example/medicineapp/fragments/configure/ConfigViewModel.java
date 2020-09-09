@@ -4,15 +4,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
+import com.example.medicineapp.database.MedicineTakeInfo;
 
 public class ConfigViewModel extends ViewModel {
-    private MutableLiveData<MedicineCourse> modelData = new MutableLiveData<MedicineCourse>();
+    private MutableLiveData<MedCoursePacked> modelData = new MutableLiveData<MedCoursePacked>();
 
-    public void setValue (MedicineCourse newCourse){
+    public void setValue (MedCoursePacked newCourse){
         modelData.setValue(newCourse);
     }
-    public LiveData<MedicineCourse> getValue(){
+    public LiveData<MedCoursePacked> getValue(){
         return modelData;
     }
+
 }

@@ -17,7 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -34,7 +36,6 @@ public class AddNewFragment extends Fragment {
     ConfigViewModel model;
     private Button incrementButton;
     private Button decrementButton;
-    private Button setTimeButton;
 
     EditText nameText;
     EditText doseText;
@@ -60,7 +61,6 @@ public class AddNewFragment extends Fragment {
 
         //buttons
         Button saveButton = root.findViewById(R.id.save_button);
-        setTimeButton = root.findViewById(R.id.set_time_button);
         incrementButton = root.findViewById(R.id.dailycount_increment_button);
         decrementButton = root.findViewById(R.id.dailycount_decrement_button);
 
@@ -84,9 +84,9 @@ public class AddNewFragment extends Fragment {
                 }
 
                 //fill newCourse fields
-                MedicineCourse newCourse = new MedicineCourse();
-                newCourse.medName = nameText.getText().toString();
-                newCourse.medDose = doseText.getText().toString();
+                MedCoursePacked newCoursePack = new MedCoursePacked();
+                newCoursePack.medName = nameText.getText().toString();
+                newCoursePack.medDose = doseText.getText().toString();
 
                 Date courseStartDate = null;
 
@@ -96,14 +96,17 @@ public class AddNewFragment extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                newCourse.startCourse = courseStartDate;
+                newCoursePack.startCourse = courseStartDate;
                 calendar.setTime(courseStartDate);
                 calendar.add(Calendar.DATE, Integer.parseInt(courseLength.getText().toString()));
-                newCourse.endCourse = calendar.getTime();
+                newCoursePack.endCourse = calendar.getTime();
 
-                newCourse.dayCount = Integer.parseInt(dailyCount.getText().toString());
+                newCoursePack.dayCount = Integer.parseInt(dailyCount.getText().toString());
+                //ADD TIMINGS!!!
+                newCoursePack.medicineTIme = medicineTime;
                 //set data to ViewModel
-                model.setValue(newCourse);
+                model.setValue(newCoursePack);
+
 
                 //go back to main config fragment
                 NavHostFragment.findNavController(AddNewFragment.this)

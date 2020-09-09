@@ -10,9 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedicineTakeInfo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewHolder> {
@@ -34,7 +40,7 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
         }
     }
 
-    private List<String> content = new ArrayList<>();
+    private List<MedicineTakeInfo> content = new ArrayList<>();
 
 
     @NonNull
@@ -48,10 +54,10 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
     @Override
     public void onBindViewHolder(@NonNull MedViewHolder holder, int position) {
-        String current = content.get(position);
-        holder.pillInfo.setText(current);
-        holder.countInfo.setText(Integer.toString(position));
-        holder.takeTime.setText(position + ":"+ position+1);
+        MedicineTakeInfo current = content.get(position);
+        holder.pillInfo.setText(Integer.toString(current.medicineId));
+        holder.countInfo.setText(Integer.toString(current.isTaken));
+        holder.takeTime.setText(getFormatDate(current.takeDay));
 
     }
 
@@ -62,9 +68,17 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
 
     public void reload(){
-        content.add("TEST1");
-        content.add("TEST2");
-        content.add("TEST3");
+        content = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
         notifyDataSetChanged();
+    }
+    public void addNewInfo(MedicineTakeInfo medicineTakeInfo){
+        MainActivity.database.medicineTakeInfoDAO().insertInfo(medicineTakeInfo);
+    }
+
+    //CalendarWorks
+    private String getFormatDate(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/HH:mm");
+
+        return sdf.format(date);
     }
 }
