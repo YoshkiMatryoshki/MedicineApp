@@ -83,6 +83,8 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
         checkCalendar.add(Calendar.HOUR_OF_DAY, 1);
         Date checkDate = checkCalendar.getTime();
 
+        //TEST = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
+
         content = MainActivity.database.medicineTakeInfoDAO().getUserDataRepresentation(checkDate.getTime());
         for (int i = 0; i < content.size(); i++){
             if (content.get(i).takeDay.before(currentCalendar.getTime())){

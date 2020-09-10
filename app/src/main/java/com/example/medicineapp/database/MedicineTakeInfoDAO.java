@@ -27,10 +27,13 @@ public interface MedicineTakeInfoDAO {
     @Query("UPDATE takeinfo SET isTaken = :isTaken WHERE id = :id")
     void updateTakeInfo(int isTaken, int id);
 
-
+    @Query("DELETE FROM takeinfo WHERE medicineId==:id")
+    void deleteAllCourse(int id);
 
     @Query("SELECT courses.id, medName, medDose, takeDay FROM courses,takeinfo"
             + " WHERE courses.id == takeinfo.medicineId"
             + " ORDER BY takeDay DESC")
-    List<MedicineTakeToUser> getALLTEST();
+    List<MedicineTakeToUser> TEST_getALL();
+
+
 }

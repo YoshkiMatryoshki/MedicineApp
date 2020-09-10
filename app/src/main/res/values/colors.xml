@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorBorders">#5e2db3</color>
+    <color name="swipeDelete">#FF0000</color>
+    <color name="swipeTaken">#6338C8</color>
 </resources>

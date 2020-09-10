@@ -15,6 +15,7 @@ import com.example.medicineapp.R;
 import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
 import com.example.medicineapp.database.MedicineTakeInfo;
+import com.example.medicineapp.database.MedicineTakeToUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,6 +113,17 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
                 MainActivity.database.medicineTakeInfoDAO().insertInfo(medInfo);
             }
         }
+
+    }
+    //delete from BOTH TABLES!!!
+    public void deleteAllEntries(int position){
+        MedicineCourse swipedElement = content.get(position);
+        //delete from courseTable
+        MainActivity.database.medicineCourseDAO().deleteRecord(swipedElement.id);
+        //delete all related from infoTable
+        MainActivity.database.medicineTakeInfoDAO().deleteAllCourse(swipedElement.id);
+        content.remove(position);
+        notifyItemRemoved(position);
 
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Dao
 public interface MedicineCourseDAO {
-    @Query("SELECT * FROM courses")
+    @Query("SELECT * FROM courses ORDER BY endCourse DESC")
     List<MedicineCourse> getAllCourses();
 
     @Query("SELECT * FROM courses WHERE medName = :medName")
@@ -16,6 +16,10 @@ public interface MedicineCourseDAO {
 
     @Insert
     void insertCourse(MedicineCourse medicineCourse);
+
+
+    @Query("DELETE FROM courses WHERE id =:id")
+    void deleteRecord(int id);
 
     @Query("DELETE FROM courses")
     void deleteALLCourses();
