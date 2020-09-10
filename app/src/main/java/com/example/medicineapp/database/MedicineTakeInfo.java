@@ -15,6 +15,6 @@ public class MedicineTakeInfo {
 
     public Date takeDay;
 
-    //0 - dont answered, 1 - taken, 2 - dont (left swipe)
+    //0 - dont answered, 1 - taken, -1 - dont (left swipe)
     public int isTaken;
 }

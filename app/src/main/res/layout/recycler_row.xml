@@ -40,6 +40,7 @@
         android:id="@+id/recycler_row_time"
         android:layout_width="122dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="3dp"
         android:autofillHints=""
         android:background="@null"
@@ -47,10 +48,10 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="time"
+        android:singleLine="false"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,5 +71,15 @@
         android:background="@color/colorBorders"
         app:layout_constraintEnd_toStartOf="@+id/divider2"
         app:layout_constraintTop_toBottomOf="@+id/recycler_row_pillInfo" />
+
+    <TextView
+        android:id="@+id/recycler_row_date"
+        android:layout_width="122dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="3dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycler_row_time" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

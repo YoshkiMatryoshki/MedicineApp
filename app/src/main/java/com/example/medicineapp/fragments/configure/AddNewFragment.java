@@ -98,13 +98,13 @@ public class AddNewFragment extends Fragment {
                 }
                 newCoursePack.startCourse = courseStartDate;
                 calendar.setTime(courseStartDate);
-                calendar.add(Calendar.DATE, Integer.parseInt(courseLength.getText().toString()));
+                calendar.add(Calendar.DAY_OF_MONTH, Integer.parseInt(courseLength.getText().toString()));
                 newCoursePack.endCourse = calendar.getTime();
 
                 newCoursePack.dayCount = Integer.parseInt(dailyCount.getText().toString());
                 //ADD TIMINGS!!!
                 newCoursePack.medicineTIme = medicineTime;
-                newCoursePack.courseLength = Integer.parseInt(dailyCount.getText().toString());
+                newCoursePack.courseLength = Integer.parseInt(courseLength.getText().toString());
                 //set data to ViewModel
                 model.setValue(newCoursePack);
 
@@ -198,7 +198,7 @@ public class AddNewFragment extends Fragment {
     }
     //Set picked date into edittext
     private void updateText(){
-        String myFormat = "dd.MM.yy";
+        String myFormat = "dd.MM.yyyy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         startDay.setText(sdf.format(calendar.getTime()));

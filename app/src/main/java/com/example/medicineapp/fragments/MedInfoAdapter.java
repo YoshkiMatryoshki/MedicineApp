@@ -1,5 +1,7 @@
 package com.example.medicineapp.fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
 import com.example.medicineapp.database.MedicineTakeInfo;
+import com.example.medicineapp.database.MedicineTakeToUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
         TextView pillInfo;
         TextView countInfo;
         EditText takeTime;
+        TextView takeDate;
 
         MedViewHolder (View view){
             super(view);
@@ -35,12 +39,16 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
             pillInfo = view.findViewById(R.id.recycler_row_pillInfo);
             countInfo = view.findViewById(R.id.recycler_configrow_countInfo);
             takeTime = view.findViewById(R.id.recycler_row_time);
+            takeDate = view.findViewById(R.id.recycler_row_date);
 
             //HERE ONCLICK LISTENER
         }
     }
 
-    private List<MedicineTakeInfo> content = new ArrayList<>();
+    private List<MedicineTakeToUser> content = new ArrayList<>();
+    private int outdatedRecordsStartPos = 0;
+    //private  List<MedicineTakeToUser> tempList = new ArrayList<>();
+    //private List<MedicineTakeInfo> TEST = new ArrayList<>();
 
 
     @NonNull
@@ -54,10 +62,14 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
     @Override
     public void onBindViewHolder(@NonNull MedViewHolder holder, int position) {
-        MedicineTakeInfo current = content.get(position);
-        holder.pillInfo.setText(Integer.toString(current.medicineId));
-        holder.countInfo.setText(Integer.toString(current.isTaken));
-        holder.takeTime.setText(getFormatDate(current.takeDay));
+        MedicineTakeToUser current = content.get(position);
+        holder.pillInfo.setText(current.medName);
+        holder.countInfo.setText(current.medDose);
+        holder.takeTime.setText(getFormatTime(current.takeDay));
+        holder.takeDate.setText(getFormatDate(current.takeDay));
+        if (position >= outdatedRecordsStartPos){
+            holder.takeTime.setTextColor(Color.RED);
+        }
 
     }
 
@@ -68,16 +80,33 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
 
     public void reload(){
-        content = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
+        Calendar checkCalendar = Calendar.getInstance();
+        Calendar currentCalendar = Calendar.getInstance();
+        checkCalendar.add(Calendar.HOUR_OF_DAY, 1);
+        Date checkDate = checkCalendar.getTime();
+
+        content = MainActivity.database.medicineTakeInfoDAO().getUserDataRepresentation(checkDate.getTime());
+        //tempList = MainActivity.database.medicineTakeInfoDAO().getALLTEST();
+        //TEST = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
+        for (int i = 0; i < content.size(); i++){
+            if (content.get(i).takeDay.before(currentCalendar.getTime())){
+                outdatedRecordsStartPos = i;
+                break;
+            }
+        }
+
         notifyDataSetChanged();
     }
-    public void addNewInfo(MedicineTakeInfo medicineTakeInfo){
-        MainActivity.database.medicineTakeInfoDAO().insertInfo(medicineTakeInfo);
-    }
+
 
     //CalendarWorks
     private String getFormatDate(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+
+        return sdf.format(date);
+    }
+    private String getFormatTime(Date date){
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
         return sdf.format(date);
     }
