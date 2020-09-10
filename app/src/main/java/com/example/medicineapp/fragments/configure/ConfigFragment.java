@@ -1,5 +1,6 @@
 package com.example.medicineapp.fragments.configure;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
 import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
@@ -45,6 +47,9 @@ public class ConfigFragment extends Fragment {
         public void onChanged(MedCoursePacked medCoursePacked) {
             if (medCoursePacked != null){
                 adapter.addNewRecord(medCoursePacked);
+                //CREATE NOTIFICATIONS FOR RECENTLY ADDED RECORDS!
+                MainActivity xd = (MainActivity)getActivity();
+                xd.CreateNotificationsById(medCoursePacked.medName);
             }
         }
     };;

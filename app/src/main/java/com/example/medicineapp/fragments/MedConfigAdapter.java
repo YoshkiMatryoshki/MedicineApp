@@ -1,5 +1,6 @@
 package com.example.medicineapp.fragments;
 
+import android.app.Application;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
+import com.example.medicineapp.SyncCalendar;
 import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
 import com.example.medicineapp.database.MedicineTakeInfo;
 import com.example.medicineapp.database.MedicineTakeToUser;
+import com.example.medicineapp.notificationstuff.MyNotificationManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

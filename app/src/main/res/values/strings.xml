@@ -12,4 +12,5 @@
     <string name="input_startday">First day of course</string>
     <string name="input_courselength">Course length (days)</string>
     <string name="set_time_button">Set time</string>
+    <string name="calcel_alarms">Calcel alarms</string>
 </resources>
