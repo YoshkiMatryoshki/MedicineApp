@@ -1,6 +1,5 @@
 package com.example.medicineapp.fragments;
 
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewHolder> {
@@ -86,8 +84,6 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
         Date checkDate = checkCalendar.getTime();
 
         content = MainActivity.database.medicineTakeInfoDAO().getUserDataRepresentation(checkDate.getTime());
-        //tempList = MainActivity.database.medicineTakeInfoDAO().getALLTEST();
-        //TEST = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
         for (int i = 0; i < content.size(); i++){
             if (content.get(i).takeDay.before(currentCalendar.getTime())){
                 outdatedRecordsStartPos = i;
@@ -96,6 +92,13 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
         }
 
         notifyDataSetChanged();
+    }
+    public void updateRecordStatus(int swipeResult, int position){
+        MedicineTakeToUser swipedElement = content.get(position);
+        MainActivity.database.medicineTakeInfoDAO().updateTakeInfo((swipeResult == 4)?-1:1,swipedElement.id);
+        content.remove(position);
+        notifyItemRemoved(position);
+
     }
 
 

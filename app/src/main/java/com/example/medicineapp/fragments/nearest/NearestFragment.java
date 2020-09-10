@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.R;
+import com.example.medicineapp.database.MedicineTakeToUser;
 import com.example.medicineapp.fragments.MedInfoAdapter;
 
 
@@ -25,13 +27,6 @@ public class NearestFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        //nearestViewModel = ViewModelProviders.of(this).get(NearestViewModel.class);
-        /*
-        nearestViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-            }
-        });*/
 
         View root = inflater.inflate(R.layout.fragment_nearest, container, false);
 
@@ -43,13 +38,31 @@ public class NearestFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
 
+        //swipes!
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
         return root;
 
     }
-
     @Override
     public void onResume() {
         super.onResume();
         adapter.reload();
     }
+
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getLayoutPosition();
+            adapter.updateRecordStatus(direction, position);
+
+        }
+    };
 }

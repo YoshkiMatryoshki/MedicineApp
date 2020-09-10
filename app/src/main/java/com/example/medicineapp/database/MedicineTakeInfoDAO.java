@@ -18,11 +18,16 @@ public interface MedicineTakeInfoDAO {
     @Query("DELETE FROM takeinfo")
     void deletaALLInfo();
 
-    @Query("SELECT courses.id, medName, medDose, takeDay FROM courses, takeinfo "
-            + "WHERE courses.id == takeinfo.medicineId AND takeinfo.isTaken != -1 "
+    @Query("SELECT takeinfo.id, medName, medDose, takeDay FROM courses, takeinfo "
+            + "WHERE courses.id == takeinfo.medicineId AND takeinfo.isTaken == 0 "
             + "AND takeinfo.takeDay <= :end "
             + "ORDER BY takeDay DESC")
     List<MedicineTakeToUser> getUserDataRepresentation(Long end);
+
+    @Query("UPDATE takeinfo SET isTaken = :isTaken WHERE id = :id")
+    void updateTakeInfo(int isTaken, int id);
+
+
 
     @Query("SELECT courses.id, medName, medDose, takeDay FROM courses,takeinfo"
             + " WHERE courses.id == takeinfo.medicineId"
