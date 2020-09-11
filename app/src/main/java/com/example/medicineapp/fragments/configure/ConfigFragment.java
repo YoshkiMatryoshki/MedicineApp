@@ -26,11 +26,14 @@ import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
 import com.example.medicineapp.database.MedCoursePacked;
 import com.example.medicineapp.database.MedicineCourse;
+import com.example.medicineapp.database.MedicineTakeToUser;
 import com.example.medicineapp.fragments.MedConfigAdapter;
 import com.example.medicineapp.fragments.MedInfoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
@@ -49,6 +52,7 @@ public class ConfigFragment extends Fragment {
                 adapter.addNewRecord(medCoursePacked);
                 //CREATE NOTIFICATIONS FOR RECENTLY ADDED RECORDS!
                 MainActivity xd = (MainActivity)getActivity();
+                assert xd != null;
                 xd.CreateNotificationsById(medCoursePacked.medName);
             }
         }
@@ -122,7 +126,15 @@ public class ConfigFragment extends Fragment {
 
             builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    adapter.deleteAllEntries(position);
+                    List<MedicineTakeToUser> notToDel =  adapter.deleteAllEntries(position);
+                    List<Integer> updateToJava8Stpd = new ArrayList<>();
+                    for (MedicineTakeToUser el : notToDel){
+                        updateToJava8Stpd.add(el.id);
+                    }
+
+                    MainActivity mainActivity = (MainActivity)getActivity();
+                    assert mainActivity != null;
+                    mainActivity.DeleteNotificationsById(updateToJava8Stpd);
                     dialog.dismiss();
                 }
             });

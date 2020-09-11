@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,9 +26,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.medicineapp.database.MedCoursesDatabase;
+import com.example.medicineapp.database.MedicineTakeInfo;
 import com.example.medicineapp.database.MedicineTakeToUser;
 import com.example.medicineapp.notificationstuff.AlarmReciever;
 import com.example.medicineapp.notificationstuff.MyNotificationManager;
+import com.example.medicineapp.notificationstuff.NotificationReciever;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent alarmIntent = new Intent(getApplicationContext(), AlarmReciever.class);
         alarmIntent.putExtra("SyncTimeStart", startSync);
         alarmIntent.putExtra("SyncTimeEnd", endSync);
-        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, alarmIntent, 0);
+        pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), -1, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 
         //SetAlarm
@@ -97,6 +100,19 @@ public class MainActivity extends AppCompatActivity {
                 .getAllInBetweenRecordsByID(currentTime, SyncCalendar.getSyncEndByDate(currentTime), courseName);
         MyNotificationManager.CreateAlarm(todayRecords,getApplicationContext());
     }
+    public void DeleteNotificationsById(List<Integer> elemIdList) {
+        for (int elemId : elemIdList){
+            Intent alarmIntent = new Intent(getApplicationContext(), NotificationReciever.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), elemId, alarmIntent, 0);
+            AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+            if (manager != null){
+                manager.cancel(pendingIntent);
+                Log.i("AlarmsNNotifications", String.format("Alarm DELETED for id: %d",elemId));
+            }
+
+        }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,11 +122,10 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-
-                AlarmManager manager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                manager.cancel(pendingIntent);
-                Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-                return false;
+                //Check if all deleted
+                List<MedicineTakeInfo> forTestingPurposes = MainActivity.database.medicineTakeInfoDAO().getAllInfo();
+                Toast.makeText(getApplicationContext(), String.format("InfoTable size: %s",forTestingPurposes.size()), Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
         return true;
@@ -122,6 +137,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();
         //return super.onSupportNavigateUp();
     }
-
 
 }

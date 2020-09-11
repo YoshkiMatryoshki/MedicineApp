@@ -1,26 +1,24 @@
 package com.example.medicineapp.fragments.nearest;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.medicineapp.MainActivity;
 import com.example.medicineapp.R;
-import com.example.medicineapp.database.MedicineTakeToUser;
 import com.example.medicineapp.fragments.MedInfoAdapter;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
@@ -67,7 +65,11 @@ public class NearestFragment extends Fragment {
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int position = viewHolder.getLayoutPosition();
-            adapter.updateRecordStatus(direction, position);
+            int elemId = adapter.updateRecordStatus(direction, position);
+            //disable alarm
+            MainActivity mainActivity = (MainActivity)getActivity();
+            assert mainActivity != null;
+            mainActivity.DeleteNotificationsById(Collections.singletonList(elemId));
 
         }
 

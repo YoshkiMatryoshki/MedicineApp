@@ -95,11 +95,14 @@ public class MedInfoAdapter extends RecyclerView.Adapter<MedInfoAdapter.MedViewH
 
         notifyDataSetChanged();
     }
-    public void updateRecordStatus(int swipeResult, int position){
+    public int updateRecordStatus(int swipeResult, int position){
         MedicineTakeToUser swipedElement = content.get(position);
         MainActivity.database.medicineTakeInfoDAO().updateTakeInfo((swipeResult == 4)?-1:1,swipedElement.id);
+        int elId = swipedElement.id;
         content.remove(position);
         notifyItemRemoved(position);
+
+        return elId;
 
     }
 

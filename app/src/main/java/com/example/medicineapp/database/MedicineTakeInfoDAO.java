@@ -36,7 +36,7 @@ public interface MedicineTakeInfoDAO {
             + "AND takeinfo.takeDay BETWEEN :start AND :end "
             + "ORDER BY takeDay DESC")
     List<MedicineTakeToUser> getAllInBetweenRecords(Long start, Long end);
-    ////Get all records within 2 dates by main course  id
+    ////Get all records within 2 dates by main course  name
 
     @Query("SELECT takeinfo.id, medName, medDose, takeDay FROM courses, takeinfo "
             + "WHERE courses.id == takeinfo.medicineId AND courses.medName == :courseName "
@@ -46,10 +46,9 @@ public interface MedicineTakeInfoDAO {
 
 
 
-    @Query("SELECT courses.id, medName, medDose, takeDay FROM courses,takeinfo"
-            + " WHERE courses.id == takeinfo.medicineId"
-            + " ORDER BY takeDay DESC")
-    List<MedicineTakeToUser> TEST_getALL();
+    @Query("SELECT takeinfo.id, medName, medDose, takeDay FROM courses,takeinfo"
+            + " WHERE courses.id == takeinfo.medicineId AND courses.medName == :courseName")
+    List<MedicineTakeToUser> TEST_getALL(String courseName);
 
 
 }

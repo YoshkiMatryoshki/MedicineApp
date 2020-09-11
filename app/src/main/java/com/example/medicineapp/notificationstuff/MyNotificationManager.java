@@ -14,8 +14,6 @@ import java.util.List;
 
 public class MyNotificationManager {
     public static void CreateAlarm(List<MedicineTakeToUser> records, Context context){
-
-
         for (MedicineTakeToUser record : records){
             Intent newIntent = new Intent(context, NotificationReciever.class);
             newIntent.putExtra("id",record.id);
@@ -33,6 +31,7 @@ public class MyNotificationManager {
             Log.i("AlarmsNNotifications", String.format("Created alarm for %s, id: %d",record.medName,record.id));
         }
     }
+    //Disable all alarms of deleted course
     public static void DisableAlarms(int id, Context context){
         Intent newIntent = new Intent(context, NotificationReciever.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,id,newIntent,0);

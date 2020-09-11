@@ -119,15 +119,23 @@ public class MedConfigAdapter extends RecyclerView.Adapter<MedConfigAdapter.MedC
 
     }
     //delete from BOTH TABLES!!!
-    public void deleteAllEntries(int position){
+    public List<MedicineTakeToUser> deleteAllEntries(int position){
         MedicineCourse swipedElement = content.get(position);
+
+
+        long time = System.currentTimeMillis();
+        List<MedicineTakeToUser> notificationToDel = MainActivity.database.medicineTakeInfoDAO()
+                .getAllInBetweenRecordsByID(time,SyncCalendar.getSyncEndByDate(time),swipedElement.medName);
+
         //delete from courseTable
         MainActivity.database.medicineCourseDAO().deleteRecord(swipedElement.id);
         //delete all related from infoTable
         MainActivity.database.medicineTakeInfoDAO().deleteAllCourse(swipedElement.id);
+
         content.remove(position);
         notifyItemRemoved(position);
 
+        return  notificationToDel;
     }
 
 
